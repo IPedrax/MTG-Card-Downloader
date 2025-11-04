@@ -86,10 +86,19 @@ class MTGCardDownloader {
     const lines = text.split('\n');
     const cards = [];
     const errors = [];
-    // Regex pattern for full format: quantity CARDNAME (SET) CN *F/E*
-    const fullPattern = /^(\d+)\s+(.+?)\s+\(([A-Z0-9]+)\)\s+(\S+)(?:\s+\*([FE])\*)?$/i;
-    // Regex pattern for fallback: quantity CARDNAME
-    const fallbackPattern = /^(\d+)\s+(.+?)$/i;
+	    // Regex pattern for full format: [quantity] CARDNAME (SET) CN *F/E*
+	    // Quantity is optional, defaulting to 1 if not present.
+	    // Group 1: Optional quantity (\d+\s+)?
+	    // Group 2: Card Name (.+?)
+	    // Group 3: Set Code ([A-Z0-9]+)
+	    // Group 4: Collector Number (\S+)
+	    // Group 5: Optional Finish ([FE])
+	    const fullPattern = /^(?:(\d+)\s+)?(.+?)\s+\(([A-Z0-9]+)\)\s+(\S+)(?:\s+\*([FE])\*)?$/i;
+	    
+	    // Regex pattern for fallback: [quantity] CARDNAME
+	    // Group 1: Optional quantity (\d+\s+)?
+	    // Group 2: Card Name (.+?)
+	    const fallbackPattern = /^(?:(\d+)\s+)?(.+?)$/i;
     
     lines.forEach((line, index) => {
       const trimmedLine = line.trim();
@@ -100,32 +109,34 @@ class MTGCardDownloader {
       let match = trimmedLine.match(fullPattern);
       
       if (match) {
-        // Full format match
-        const [, quantity, cardName, setCode, collectorNumber, finish] = match;
-        cards.push({
-          quantity: parseInt(quantity),
-          name: cardName.trim(),
-          set: setCode.toUpperCase(),
-          collectorNumber: collectorNumber,
-          finish: finish || null,
-          originalLine: trimmedLine,
-          fallback: false // Not a fallback card
-        });
+	        // Full format match
+	        const [, quantityStr, cardName, setCode, collectorNumber, finish] = match;
+	        const quantity = quantityStr ? parseInt(quantityStr) : 1; // Default to 1
+	        cards.push({
+	          quantity: quantity,
+	          name: cardName.trim(),
+	          set: setCode.toUpperCase(),
+	          collectorNumber: collectorNumber,
+	          finish: finish || null,
+	          originalLine: trimmedLine,
+	          fallback: false // Not a fallback card
+	        });
       } else {
-        // Try fallback format
-        match = trimmedLine.match(fallbackPattern);
-        if (match) {
-          const [, quantity, cardName] = match;
-          cards.push({
-            quantity: parseInt(quantity),
-            name: cardName.trim(),
-            set: null, // Missing set
-            collectorNumber: null, // Missing CN
-            finish: null, // Missing finish
-            originalLine: trimmedLine,
-            fallback: true // Is a fallback card
-          });
-        } else {
+	        // Try fallback format
+	        match = trimmedLine.match(fallbackPattern);
+	        if (match) {
+	          const [, quantityStr, cardName] = match;
+	          const quantity = quantityStr ? parseInt(quantityStr) : 1; // Default to 1
+	          cards.push({
+	            quantity: quantity,
+	            name: cardName.trim(),
+	            set: null, // Missing set
+	            collectorNumber: null, // Missing CN
+	            finish: null, // Missing finish
+	            originalLine: trimmedLine,
+	            fallback: true // Is a fallback card
+	          });
+	        } else {
           // Still no match, report error
           errors.push(`Line ${index + 1}: "${trimmedLine}"`);
         }

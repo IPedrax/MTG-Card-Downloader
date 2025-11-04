@@ -19,7 +19,7 @@
       <section class="input-section">
         <label for="deckList">
           <strong>Deck List</strong>
-	          <span class="format-hint">Format: quantity CARDNAME [(SET) CN] [*F/E*]</span>
+	          <span class="format-hint">Format: [quantity] CARDNAME [(SET) CN] [*F/E*]</span>
         </label>
         <textarea 
           id="deckList" 
@@ -32,7 +32,7 @@
 	        <strong>Format Guide:</strong>
 	        <dl class="format-list">
 	          <dt>Quantity</dt>
-	          <dd>Number of cards (e.g., <code>4</code>)</dd>
+	          <dd><strong>Optional:</strong> Number of cards (e.g., <code>4</code>). Defaults to <code>1</code> if omitted.</dd>
 	          
 	          <dt>Card Name</dt>
 	          <dd>Full card name, can include spaces (e.g., <code>Lightning Bolt</code> or <code>Tribute to Horobi / Echo of Death's Wail</code>)</dd>
