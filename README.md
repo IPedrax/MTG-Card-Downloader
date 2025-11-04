@@ -55,7 +55,7 @@ The parser is highly flexible, but the core format is:
 
 | Field | Description | Status | Example |
 | :--- | :--- | :--- | :--- |
-| **Quantity** | Number of copies of the card. | **Required** | `4` |
+| **Quantity** | Number of copies of the card. | **Optional** | `4` |
 | **Card Name** | Full name of the card. Use `/` for double-sided cards. | **Required** | `Lightning Bolt` or `Tribute to Horobi / Echo of Death's Wail` |
 | **(SET) CN** | Set code in parentheses and Collector Number. | **Optional** | `(M10) 146` |
 | **Finish** | Foil (`*F*`) or Etched (`*E*`) marker. | **Optional** | `*F*` |
