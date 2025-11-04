@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Magic: The Gathering Card Downloader</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="header-content">
+        <h1>Magic: The Gathering Card Downloader</h1>
+        
+      </div>
+    </header>
+
+    <main>
+      <section class="input-section">
+        <label for="deckList">
+          <strong>Deck List</strong>
+	          <span class="format-hint">Format: quantity CARDNAME [(SET) CN] [*F/E*]</span>
+        </label>
+        <textarea 
+          id="deckList" 
+          placeholder="Example:&#10;4 Lightning Bolt (M10) 146 *F*&#10;2 Black Lotus (LEA) 232&#10;1 Counterspell (ICE) 64"
+          rows="10"
+        ></textarea>
+	      </section>
+	
+	      <div class="format-info">
+	        <strong>Format Guide:</strong>
+	        <dl class="format-list">
+	          <dt>Quantity</dt>
+	          <dd>Number of cards (e.g., <code>4</code>)</dd>
+	          
+	          <dt>Card Name</dt>
+	          <dd>Full card name, can include spaces (e.g., <code>Lightning Bolt</code> or <code>Tribute to Horobi / Echo of Death's Wail</code>)</dd>
+	          
+	          <dt>Set Code & CN</dt>
+	          <dd><strong>Optional:</strong> Set code in parentheses and Collector Number (e.g., <code>(M10) 146</code>). If omitted, the default print will be downloaded (Fallback).</dd>
+	          
+	          <dt>Finish</dt>
+	          <dd><strong>Optional:</strong> Foil (<code>*F*</code>) or Etched (<code>*E*</code>) marker.</dd>
+	          
+	          <dt>Double-Sided</dt>
+	          <dd>Cards with two faces will have both sides downloaded to a <code>DS</code> folder within the ZIP.</dd>
+	        </dl>
+	      </div>
+	
+	      <section class="action-section">
+        <button id="downloadBtn" class="btn-primary">
+          <span class="btn-icon">⬇</span>
+          Download Card Images
+        </button>
+      </section>
+
+      <section class="progress-section" id="progressSection" style="display: none;">
+        <div class="progress-bar-container">
+          <div class="progress-bar" id="progressBar"></div>
+        </div>
+        <p class="progress-text" id="progressText">Initializing...</p>
+      </section>
+
+      <section class="results-section" id="resultsSection" style="display: none;">
+        <div id="successMessage" class="message success" style="display: none;">
+          <h3>✓ Success!</h3>
+          <p id="successText"></p>
+          <button id="downloadZipBtn" class="btn-success">
+            <span class="btn-icon">📦</span>
+            Download ZIP File
+          </button>
+        </div>
+
+        <div id="errorMessage" class="message error" style="display: none;">
+          <h3>⚠ Some Cards Not Found</h3>
+          <p id="errorSummary"></p>
+          <div class="error-list-container">
+            <ul id="errorList"></ul>
+          </div>
+          <button id="downloadPartialZipBtn" class="btn-warning" style="display: none;">
+            <span class="btn-icon">📦</span>
+            Download Available Cards
+          </button>
+        </div>
+
+        <div id="completeErrorMessage" class="message error" style="display: none;">
+          <h3>✗ Error</h3>
+          <p id="completeErrorText"></p>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <p class="footer-text">
+        Data provided by <a href="https://scryfall.com" target="_blank">Scryfall</a>
+      </p>
+    </footer>
+  </div>
+
+  <script src="jszip.min.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>
